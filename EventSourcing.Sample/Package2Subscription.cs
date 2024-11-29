@@ -1,14 +1,12 @@
-﻿internal class PackageSubscription: Subscription<PackageStream>
+﻿internal class Package2Subscription : EventSourcing.Postgres.Subscription<PackageStream>
 {
     private readonly PackageProjection _projection;
-    public PackageSubscription(PackageProjection projection)
+    public Package2Subscription(PackageProjection projection)
     {
         _projection = projection;
 
         StartFrom(DateTime.MinValue);
         Subscribe<PackageReceived>();
-        Subscribe<PackageLoadedOnCart>();
-        Subscribe<PackageOutForDelivery>();
     }
     public override async Task HandleEvent(Guid streamId, IEvent @event, CancellationToken cancellationToken)
     {

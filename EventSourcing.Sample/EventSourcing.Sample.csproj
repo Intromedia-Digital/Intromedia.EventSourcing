@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EventSourcing.Cosmos\EventSourcing.Cosmos.csproj" />
+    <ProjectReference Include="..\EventSourcing.Postgres\EventSourcing.Postgres.csproj" />
     <ProjectReference Include="..\EventSourcing\EventSourcing.csproj" />
   </ItemGroup>
 

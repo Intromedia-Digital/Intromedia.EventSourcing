@@ -14,19 +14,22 @@ builder.Services.AddDbContext<PackageContext>(op =>
     op.UseSqlServer(builder.Configuration["Sql"]!).UseExceptionProcessor();
 });
 
+//builder.Services.AddEventSourcing()
+//    .UseCosmos(
+//        connectionString: builder.Configuration["Cosmos"]!,
+//        databaseId: "event-sourcing",
+//        serviceKey: ServiceKey.Key
+//    )
+//    .AddEventTypesFromAssemblies(typeof(Program).Assembly)
+//    //.AddAppendStream<PackageStream>()
+//    .AddAppendStream<Packge2Stream>()
+//    .AddSubscription<PackageSubscription, PackageStream>()
+//    .AddSubscription<Package2Subscription, PackageStream>();
+
 builder.Services.AddEventSourcing()
-    .UseCosmos(
-        connectionString: builder.Configuration["Cosmos"]!,
-        databaseId: "event-sourcing",
-        serviceKey: ServiceKey.Key
-    )
-    .AddEventTypesFromAssemblies(typeof(Program).Assembly)
+    .UsePostgres(builder.Configuration.GetConnectionString("event-sourcing")!)
     .AddAppendStream<PackageStream>()
-    .AddAppendStream<Packge2Stream>()
-    .AddSubscription<PackageSubscription, PackageStream>()
     .AddSubscription<Package2Subscription, PackageStream>();
-
-
 
 builder.Services.AddScoped<PackageRepository>();
 builder.Services.AddSingleton<PackageProjection>();
